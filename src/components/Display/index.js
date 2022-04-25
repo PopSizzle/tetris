@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Display = (props) =>{
+const Display = ({ gameOver, text}) =>{
   return(
-    <div>{props.text}</div>
+    <div className = 'cell'>{text}</div>
   )
 }
 
