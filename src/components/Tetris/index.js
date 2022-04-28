@@ -59,6 +59,7 @@ const Tetris = () => {
   }
 
   const move = ({ keyCode }) =>{
+      console.log(keyCode);
       if(!gameOver){
         if(keyCode === 37) {
           lateralMove(-1);
