@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { createStage } from '../../gameHelpers'; 
+import { createStage, checkCollision } from '../../gameHelpers';
 
 // styled Components
 import { StyledTetrisWrapper, StyledTetris } from './styledTetris';
@@ -21,22 +21,37 @@ const Tetris = () => {
   const[gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPos, resetPlayer] = usePlayer();
-  const [stage, setStage] = useStage(player);
+  const [stage, setStage] = useStage(player, resetPlayer);
 
   console.log('re-render');
   
-  const movePlayer = (direction) =>{
+  const lateralMove = (direction) =>{
+      if(!checkCollision(player, stage, { x: direction, y: 0})){
       updatePlayerPos({ x: direction, y: 0});
+      }
   }
 
   const startGame = () =>{
     // reset to starting position
     setStage(createStage());
     resetPlayer();
+    setGameOver(false);
   }
 
   const drop = () =>{
-    updatePlayerPos({ x: 0, y: 1, collided: false})
+    if(!checkCollision(player, stage, { x: 0, y: 1})){
+      updatePlayerPos({ x: 0, y: 1, collided: false})
+    } else {
+      // Check if game is over
+      if(player.pos.y < 1){
+        console.log('GAME OVER');
+        setGameOver(true);
+        setDropTime(null);
+      }
+
+      updatePlayerPos({ x: 0, y: 0, collided: true});
+    }
+    
   }
 
   const dropPlayer = () =>{
@@ -46,9 +61,9 @@ const Tetris = () => {
   const move = ({ keyCode }) =>{
       if(!gameOver){
         if(keyCode === 37) {
-          movePlayer(-1);
+          lateralMove(-1);
         } else if(keyCode === 39){
-          movePlayer(1);
+          lateralMove(1);
         } else if(keyCode === 40){
           dropPlayer();
         }
