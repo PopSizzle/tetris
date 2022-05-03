@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { STAGE_WIDTH } from '../gameHelpers';
+import { checkCollision, STAGE_WIDTH } from '../gameHelpers';
 import { TETROMINOS, randomTetromino } from '../tetrominos';
 
 export const usePlayer = () =>{
@@ -24,6 +24,20 @@ export const usePlayer = () =>{
     const deepPlayerCopy = JSON.parse(JSON.stringify(player));
 
     deepPlayerCopy.tetromino = rotate(deepPlayerCopy.tetromino, dir);
+
+    // Check for collisions or leaving stage while rotating
+
+    const pos = deepPlayerCopy.pos.x;
+    let offset = 1;
+    while(checkCollision(deepPlayerCopy, stage, { x: 0, y: 0})){
+      deepPlayerCopy.pos.x += offset;
+      offset = -(offset + (offset > 0 ? 1 : -1));
+      if(offset > deepPlayerCopy.tetromino[0].length){
+        rotate(deepPlayerCopy.tetromino, -dir);
+        deepPlayerCopy.pos.x = pos;
+        return;
+      }
+    }
 
     setPlayer(deepPlayerCopy);
   }
