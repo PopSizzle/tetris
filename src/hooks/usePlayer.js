@@ -12,7 +12,9 @@ export const usePlayer = () =>{
 
   const rotate = (matrix, dir) => {
     // Change rows to cols
-    const rotatedTetro = matrix.map((_, index) => matrix.map(col => col[index]));
+    const rotatedTetro = matrix.map((_, index) => 
+    matrix.map(col => col[index]),
+    );
 
     // Reverse each row
     if(dir > 0) return rotatedTetro.map(row => row.reverse());
@@ -29,9 +31,12 @@ export const usePlayer = () =>{
 
     const pos = deepPlayerCopy.pos.x;
     let offset = 1;
+
     while(checkCollision(deepPlayerCopy, stage, { x: 0, y: 0})){
+      
       deepPlayerCopy.pos.x += offset;
       offset = -(offset + (offset > 0 ? 1 : -1));
+      
       if(offset > deepPlayerCopy.tetromino[0].length){
         rotate(deepPlayerCopy.tetromino, -dir);
         deepPlayerCopy.pos.x = pos;
@@ -45,7 +50,7 @@ export const usePlayer = () =>{
   const updatePlayerPos = ({ x, y, collided}) => {
     setPlayer(prev => ({
       ...prev,
-      pos: {x: (prev.pos.x += x), y:(prev.pos.y +=y)},
+      pos: {x: (prev.pos.x += x), y:(prev.pos.y += y)},
       collided,
     }))
   }
