@@ -86,6 +86,7 @@ const Tetris = () => {
 
   const move = ({ keyCode }) =>{
       console.log(keyCode);
+
       if(!gameOver){
         if(keyCode === 37) {
           lateralMove(-1);
@@ -119,7 +120,12 @@ const Tetris = () => {
           </div>
           )}
           <StartButton callback={startGame}/>
+          <button onClick={() => lateralMove(-1)} >Left</button>
+          <button onClick={() => lateralMove(1)} >Right</button>
+          <button onClick={() => playerRotate(stage, 1)} >Rotate</button>
+          <button onClick={() => dropPlayer()} >Down</button>
         </aside>
+        
       </StyledTetris>
     </StyledTetrisWrapper>
   )
