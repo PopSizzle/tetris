@@ -1,5 +1,7 @@
 # React Tetris
 
+Live app located here: https://react-tetris-by-poppe.herokuapp.com/
+
 This Tetris app is an adaptation of the 1980s classic arcade game.
 The player controls the pieces using the arrow keys on the keyboard to move left and right. The up arrow rotates the tetromino shape and the down arrow accelerates the descent of the shape. This version follows the original formula to calculate scoring and advances the level with every ten rows that are cleared. Every time the level advances, the default speed at which the pieces drop accelerates slightly.
 
@@ -7,11 +9,11 @@ This tetris app utilizes the re-rendering of React to manage the state of the ga
 
 # Table of Contents
 
-  i. Technologies used
-  ii. Specific code samples
-  iii. Installation
-  iv. Acknowledgements
-  v. Author
+  1. Technologies used
+  2. Specific code samples
+  3. Installation
+  4. Acknowledgements
+  5. Author
 
 # Technologies used
 
@@ -85,6 +87,4 @@ This tetris app utilizes the re-rendering of React to manage the state of the ga
 Feel free to contact me on Github!
 
 <img src="https://avatars1.githubusercontent.com/u/60407759?s=80" alt = "Poppe's avatar" style = "border-radius: 15px;"/>   [GitHub](https://github.com/PopSizzle) Sam Poppe   
-
-
 
