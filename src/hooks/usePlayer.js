@@ -22,28 +22,27 @@ export const usePlayer = () =>{
   }
 
   const playerRotate = (stage, dir) => {
-    
+    // deep copy of the player object
     const deepPlayerCopy = JSON.parse(JSON.stringify(player));
-
+    // rotate the tetormino
     deepPlayerCopy.tetromino = rotate(deepPlayerCopy.tetromino, dir);
 
     // Check for collisions or leaving stage while rotating
-
     const pos = deepPlayerCopy.pos.x;
     let offset = 1;
-
+    // If there is a collision, offset the rotated piece and check again
     while(checkCollision(deepPlayerCopy, stage, { x: 0, y: 0})){
       
       deepPlayerCopy.pos.x += offset;
       offset = -(offset + (offset > 0 ? 1 : -1));
-      
+      // If the offset has surpassed the grid of the shape, undo the rotation
       if(offset > deepPlayerCopy.tetromino[0].length){
         rotate(deepPlayerCopy.tetromino, -dir);
         deepPlayerCopy.pos.x = pos;
         return;
       }
     }
-
+    // Set the deep copy as the new player object
     setPlayer(deepPlayerCopy);
   }
 

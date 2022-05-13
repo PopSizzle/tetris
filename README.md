@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# React Tetris
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This Tetris app is an adaptation of the 1980s classic arcade game.
+The player controls the pieces using the arrow keys on the keyboard to move left and right. The up arrow rotates the tetromino shape and the down arrow accelerates the descent of the shape. This version follows the original formula to calculate scoring and advances the level with every ten rows that are cleared. Every time the level advances, the default speed at which the pieces drop accelerates slightly.
 
-## Available Scripts
+This tetris app utilizes the re-rendering of React to manage the state of the game and the location of the tetromino shapes. It utilizes the useState feature of react to track both the location of the moving shape and the composition of the completed board. It also utilizes several custom hooks to control various aspects of the game.
 
-In the project directory, you can run:
+# Table of Contents
 
-### `yarn start`
+  i. Technologies used
+  ii. Specific code samples
+  iii. Installation
+  iv. Acknowledgements
+  v. Author
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Technologies used
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  ReactJS - model and render the information displayed on the browser
 
-### `yarn test`
+  Git - version control system to track changes made to code
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  Github - online hosting of the repository for general viewing
 
-### `yarn build`
+  Heroku - to host the deployed application  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  JavaScript - a dynamic object-oriented programming language 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Code Samples
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  One of the more difficult portions of the application was when a roation made by the player would result in a collision. The solution was attempting to move the rotated piece left and right to see if it could fit there. If no space as found within the width of the piece, the rotation was canceled.
+  ```
+     const playerRotate = (stage, dir) => {
+    // deep copy of the player object
+    const deepPlayerCopy = JSON.parse(JSON.stringify(player));
+    // rotate the tetormino
+    deepPlayerCopy.tetromino = rotate(deepPlayerCopy.tetromino, dir);
 
-### `yarn eject`
+    // Check for collisions or leaving stage while rotating
+    const pos = deepPlayerCopy.pos.x;
+    let offset = 1;
+    // If there is a collision, offset the rotated piece and check again
+    while(checkCollision(deepPlayerCopy, stage, { x: 0, y: 0})){
+      
+      deepPlayerCopy.pos.x += offset;
+      offset = -(offset + (offset > 0 ? 1 : -1));
+      // If the offset has surpassed the grid of the shape, undo the rotation
+      if(offset > deepPlayerCopy.tetromino[0].length){
+        rotate(deepPlayerCopy.tetromino, -dir);
+        deepPlayerCopy.pos.x = pos;
+        return;
+      }
+    }
+    // Set the deep copy as the new player object
+    setPlayer(deepPlayerCopy);
+  }
+  ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Installation and use
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  In order to simply play the Tetris game, a user can simply click on the Heroku link.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  If they would like to clone the repository to your machine, follow these steps:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  1. Fork the repository
+  2. Clone your repository
+  3. Open a terminal and cd into your cloned repo
+  4. "cd app"
+  5. "npm install" // install the node modules
+  6. "cd tetris"
+  7. "npm install" // ensure all node modules are installed for React
+  8. "npm run start" // starts your server, creates your database tables, starts react and opens a browser.
 
-## Learn More
+# Acknowledgements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  HUGE acknowledgement and thank you to freecodecamp.org and youtube user weibenfalk. Their tutorial helped me immensely in understanding how to use hooks with Tetris specifically. I essentially followed their tutorial and then added my own style and some expanded features. I could not have done it without them.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  View their tutorial at https://www.youtube.com/watch?v=ZGOaCxX8HIU
 
-### Code Splitting
+  Also a thank you to Dan Abramaov, who provided the setInterval custom hook and graciously gave permission for others to use it in their projects.
+  
+  View his blog post on the subject here: https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Author
 
-### Analyzing the Bundle Size
+Feel free to contact me on Github!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<img src="https://avatars1.githubusercontent.com/u/60407759?s=80" alt = "Poppe's avatar" style = "border-radius: 15px;"/>   [GitHub](https://github.com/PopSizzle) Sam Poppe   
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
